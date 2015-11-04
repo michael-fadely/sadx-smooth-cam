@@ -1,9 +1,9 @@
 #include <SADXModLoader.h>
 #include <limits>
 
-// TODO: make camera rotatable left and right with analog stick
+// TODO: Smooth camera rotation
+// TODO: Make camera rotatable left and right with analog stick
 
-DataArray(ControllerData, ControllersStatic, 0x03B0E7F0, 8);
 DataPointer(int, FirstPerson_X, 0x03C4ADA0);
 DataPointer(int, FirstPerson_Y, 0x03C4AD9C);
 
@@ -11,8 +11,8 @@ DataPointer(int, FirstPerson_Y, 0x03C4AD9C);
 
 int __cdecl SmoothCamera_c()
 {
-	const short x = ControllersStatic[0].RightStickX;
-	const short y = ControllersStatic[0].RightStickY;
+	const short x = Controllers[0].RightStickX;
+	const short y = Controllers[0].RightStickY;
 	const float m = (float)sqrt(x * x + y * y);
 	const float nx = (x == 0) ? 0.0f : x / m;
 	const float ny = (y == 0) ? 0.0f : y / m;
@@ -35,7 +35,7 @@ void __declspec(naked) SmoothCamera_asm()
 
 bool __cdecl CheckStick()
 {
-	return abs(ControllersStatic[0].RightStickX) > 63 || abs(ControllersStatic[0].RightStickY) > 63;
+	return abs(Controllers[0].RightStickX) > 63 || abs(Controllers[0].RightStickY) > 63;
 }
 
 DataPointer(int, dword_3B2CA18, 0x3B2CA18);
